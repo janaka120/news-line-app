@@ -35,3 +35,4 @@ export const GRAY_153_45 = 'rgba(153,153,153, .45)';
 export const GREEN_197_216_109_1 = 'rgba(197, 216, 109, 0.1)';
 export const GRAY_222_217_84 = 'rgba(222, 217, 217, 0.84)';
 export const GRAY_214_9 = 'rgba(214, 214, 214, 0.9)';
+export const GRAY_255_1 = 'rgba(0, 0, 0,  0.3)';
