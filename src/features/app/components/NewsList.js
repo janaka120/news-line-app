@@ -14,11 +14,12 @@ const NewsList = (props: Props) => {
     onPress(uuid);
   };
 
-  const renderItem = ({uuid, title}) => {
+  const renderItem = ({uuid, title, urlToImage}) => {
     return (
       <NewsListItem
         key={uuid}
         title={title}
+        imageUrl={urlToImage}
         onClick={() => onPressItem(uuid)}
       />
     );

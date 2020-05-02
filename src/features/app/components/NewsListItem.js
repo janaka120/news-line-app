@@ -1,7 +1,15 @@
 // @flow
 import * as React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {GREEN_86D, GREEN_53A, WHITE_FFF} from '../../../styles/Colors';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  GREEN_86D,
+  GREEN_53A,
+  WHITE_FFF,
+  GRAY_999,
+  GRAY_190_1,
+  GRAY_6D6,
+  GRAY_9D9,
+} from '../../../styles/Colors';
 import {
   scaleFontWithLineHeight,
   scaleHeight,
@@ -13,59 +21,68 @@ import {
 type Props = {
   key: string,
   title: string,
+  imageUrl?: string,
   onClick: () => void,
 };
 
-const NewsListItem = ({title, onClick}: Props) => {
+const NewsListItem = ({title, imageUrl, onClick}: Props) => {
+  const imgSource =
+    imageUrl.length > 0
+      ? {
+          uri: imageUrl,
+        }
+      : require('../../../assets/images/sample_news_bg.jpg');
   return (
-    <TouchableOpacity onPress={onClick}>
-      <View style={styles.btnCon} elevation={2}>
-        <View style={styles.leftCon}>
-          <View style={styles.txtCon}>
-            <Text style={styles.title}>{title}</Text>
-          </View>
-        </View>
+    <TouchableOpacity style={styles.btnCon} onPress={onClick}>
+      <View style={styles.leftCon}>
+        <Image style={styles.thumbnailImage} source={imgSource} />
+      </View>
+      <View style={styles.txtCon}>
+        <Text style={styles.title}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 export default NewsListItem;
 
-const height = scaleSize(43);
+const borderRadius = scaleSize(10);
+const imageHeight = scaleWidth(100);
+
 const styles = StyleSheet.create({
   btnCon: {
     alignItems: 'center',
-    justifyContent: 'space-between',
     flexDirection: 'row',
-    marginBottom: scaleHeight(17),
-    // height,
-    // width: '100%',
+    marginBottom: scaleHeight(12),
+    borderRadius: borderRadius,
     backgroundColor: WHITE_FFF,
+    borderColor: GRAY_9D9,
+    borderWidth: scaleSizeBorder(1, 1),
   },
-  selected: {
-    ...StyleSheet.absoluteFill,
-    borderWidth: scaleSizeBorder(3, 3),
-    borderColor: GREEN_86D,
-    borderRadius: height / 2,
+  btnConEnable: {},
+  btnConDisabled: {
+    backgroundColor: GRAY_190_1,
   },
   leftCon: {
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+    width: imageHeight,
+    height: imageHeight,
+    backgroundColor: GRAY_6D6,
+    borderRadius: borderRadius,
   },
   txtCon: {
-    marginLeft: scaleWidth(21),
-    justifyContent: 'space-around',
+    flex: 1,
+    marginHorizontal: scaleWidth(8),
   },
   title: {
-    ...scaleFontWithLineHeight(20),
-    color: GREEN_53A,
+    ...scaleFontWithLineHeight(15.2),
+    fontWeight: 'bold',
   },
-  subText: {
-    ...scaleFontWithLineHeight(10),
-    color: GREEN_53A,
-  },
-  tickView: {
-    marginRight: scaleWidth(19),
+  thumbnailImage: {
+    width: imageHeight,
+    height: imageHeight,
+    resizeMode: 'cover',
+    backgroundColor: GRAY_6D6,
+    borderRadius: borderRadius,
   },
 });
