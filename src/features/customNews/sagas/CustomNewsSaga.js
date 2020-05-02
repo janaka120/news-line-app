@@ -12,6 +12,7 @@ import {
 } from '../../../api/ApiConstants';
 import type {NewsResponse, Article} from '../../app/models/NewsModel';
 import {formatNewsArticlesData} from '../../../services/DataModalService';
+import Alert from '../../app/components/CustomAlert';
 
 function* formatArticleData(articles: Array<Article>) {
   return formatNewsArticlesData(articles);
@@ -20,7 +21,6 @@ function* formatArticleData(articles: Array<Article>) {
 function* requestNewsArticles({payload}) {
   try {
     const {newsTopic} = payload;
-    console.log('newsTopic >>>>>>>>>>>>>>>>>>>', newsTopic);
     const url = `${ApiEndPoint.GET_HEADLINES}?q=${newsTopic}&sortBy=popularity&apiKey=${ApiKey}`;
     const {status, data}: NewsResponse = yield call(API(url, ApiMethod.GET));
     console.log('response >>>>>>>>>>>', status);
@@ -28,7 +28,6 @@ function* requestNewsArticles({payload}) {
       if (data) {
         const totalResults = data.totalResults;
         const articles = yield call(formatArticleData, data.articles);
-        console.log('totalResults >>>>>>>>>>>', totalResults);
         yield put(
           requestCustomNewsSuccess({
             customArticles: articles,
@@ -38,6 +37,7 @@ function* requestNewsArticles({payload}) {
       }
     }
   } catch (e) {
+    Alert('Oops', 'News articles retrieving fail');
     console.log('requestNews, error: ', e);
   }
 }

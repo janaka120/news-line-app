@@ -1,26 +1,110 @@
-import React, {useEffect} from 'react';
-import {View, StyleSheet, Text, SafeAreaView} from 'react-native';
+//@flow
+import React, {useState, useEffect} from 'react';
+import {Text, StyleSheet, View, SafeAreaView} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+
+import {
+  scaleWidth,
+  scaleFontWithLineHeight,
+  scaleHeight,
+} from '../../../styles/Mixins';
+import {WHITE_FFF} from '../../../styles/Colors';
+import TextBox from '../../app/components/TextBox';
+import SubmitButton from '../../app/components/SubmitButton';
+import {requestUserSave, requestUserSavedProfile} from '../actions/UserActions';
 
 const UserProfileScreen = () => {
   const dispatch = useDispatch();
 
-  const {todo} = useSelector(
+  const {
+    storedUserName,
+    storedFullName,
+    storedPassword,
+    loggedSuccess,
+  } = useSelector(
     (state) => ({
-      // todo: state.onboardingReducer.todo,
+      storedUserName: state.userReducer.userName,
+      storedFullName: state.userReducer.fullName,
+      storedPassword: state.userReducer.password,
+      loggedSuccess: state.userReducer.loggedSuccess,
     }),
     shallowEqual,
   );
 
+  const [userName, setUserName] = useState(storedUserName);
+  const [fullName, setFullName] = useState(storedFullName);
+  const [password, setPassword] = useState(storedPassword);
+
   useEffect(() => {
-    // dispatch(addTodo({id: 1}));
+    dispatch(requestUserSavedProfile());
   }, [dispatch]);
 
+  const onPressSubmit = () => {
+    dispatch(requestUserSave(userName, fullName, password));
+  };
+
+  useEffect(() => {
+    setUserName(storedUserName);
+    setFullName(storedFullName);
+    setPassword(storedPassword);
+  }, [storedUserName, storedFullName, storedPassword]);
+
+  const validateForm = () => {
+    return userName.length <= 5 || fullName.length <= 3 || password.length <= 5;
+  };
+
   return (
-    <SafeAreaView>
-      <View style={styles.container}>
-        <Text>User Profile Screen</Text>
-      </View>
+    <SafeAreaView style={styles.safeAreaView}>
+      <KeyboardAwareScrollView
+        style={styles.mainWrapper}
+        resetScrollToCoords={{x: 0, y: 0}}
+        scrollEnabled={true}
+        showsVerticalScrollIndicator={false}>
+        <Text style={styles.title}>Welcome aboard</Text>
+        <View style={styles.mainContentView}>
+          <TextBox
+            value={userName}
+            placeholder="User Name"
+            onChangeText={(txt) => {
+              setUserName(txt);
+            }}
+            icon="user-shield"
+            error={userName.length <= 5 ? 'Please enter valid User name.' : ''}
+          />
+          <View style={styles.gap} />
+          <TextBox
+            value={fullName}
+            placeholder="Full Name"
+            onChangeText={(txt) => {
+              setFullName(txt);
+            }}
+            icon="user-alt"
+            autoCapitalize="words"
+            error={fullName.length <= 3 ? 'Please enter valid Full name.' : ''}
+          />
+          <View style={styles.gap} />
+          <TextBox
+            value={password}
+            placeholder="Password"
+            onChangeText={(txt) => {
+              setPassword(txt);
+            }}
+            icon="user-lock"
+            secureTextEntry={true}
+            error={password.length <= 5 ? 'Please enter valid Password.' : ''}
+          />
+        </View>
+        {!loggedSuccess ? (
+          <View style={styles.buttonContainer}>
+            <SubmitButton
+              title="Register"
+              onPress={onPressSubmit}
+              disabled={validateForm()}
+            />
+          </View>
+        ) : null}
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };
@@ -28,11 +112,28 @@ const UserProfileScreen = () => {
 export default UserProfileScreen;
 
 const styles = StyleSheet.create({
-  safeContainer: {
+  safeAreaView: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: WHITE_FFF,
   },
-  container: {
+  mainWrapper: {
     flex: 1,
+    marginHorizontal: scaleWidth(16),
+    marginVertical: scaleWidth(16),
+  },
+  title: {
+    marginTop: scaleHeight(10),
+    ...scaleFontWithLineHeight(20),
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  mainContentView: {
+    marginTop: scaleHeight(52),
+  },
+  gap: {
+    height: scaleHeight(20.5),
+  },
+  buttonContainer: {
+    marginTop: scaleHeight(50),
   },
 });

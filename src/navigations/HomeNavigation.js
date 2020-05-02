@@ -18,7 +18,7 @@ const HomeNavigation = () => {
   return (
     <Tab.Navigator
       headerMode="none"
-      initialRouteName="home"
+      initialRouteName="user"
       tabBar={(props) => <TabBar {...props} />}>
       <Tab.Screen
         name={AppConstant.TAB_LABELS.Home}

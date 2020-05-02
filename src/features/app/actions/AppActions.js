@@ -1,1 +1,0 @@
-import {AppConstant} from '../AppConstant';
