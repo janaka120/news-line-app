@@ -12,11 +12,11 @@ import {
 } from '../../../api/ApiConstants';
 import type {NewsResponse, Article} from '../../app/models/NewsModel';
 
-function * formatArticleData(articles: Array<Article>) {
+function* formatArticleData(articles: Array<Article>) {
   return articles.map((a, i) => {
     return {
       uuid: i.toString(),
-      source: a.source ? a.source : '',
+      source: a.source ? (a.source.name ? a.source.name : '') : '',
       author: a.author ? a.author : '',
       title: a.title ? a.title : '',
       description: a.description ? a.description : '',
@@ -37,6 +37,7 @@ function* requestNewsArticles({payload}) {
       if (data) {
         const totalResults = data.totalResults;
         const articles = yield call(formatArticleData, data.articles);
+        console.log('totalResults >>>>>>>>>>>', totalResults);
         yield put(
           requestNewsSuccess({
             articles: articles,

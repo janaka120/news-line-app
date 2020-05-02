@@ -4,7 +4,13 @@ import {View, SafeAreaView, StyleSheet, Text} from 'react-native';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {requestNews} from '../actions/HomeActions';
 import NewsList from '../../app/components/NewsList';
-import {scaleWidth} from '../../../styles/Mixins';
+import {
+  scaleWidth,
+  scaleHeight,
+  scaleFontWithLineHeight,
+} from '../../../styles/Mixins';
+import SearchBox from '../../app/components/SearchBox';
+import type {Article} from '../../app/models/NewsModel';
 
 import type {NavPropType} from '../../../Types';
 
@@ -31,10 +37,14 @@ const HomeScreen = ({navigation, route}: Props) => {
   useEffect(() => {
     dispatch(requestNews());
   }, [dispatch]);
-  // console.log('>>>>>>>>>>>>',totalArticles, articles)
 
   const onPressNewsList = (id) => {
     console.log('New Item Id', id);
+    const article = articles.find((a) => a.uuid === id);
+    if (article) {
+      const passData: Article = {...article};
+      navigation.navigate('NewsDetails', passData);
+    }
   };
 
   const onArticleListFilterHandler = () => {
@@ -45,10 +55,19 @@ const HomeScreen = ({navigation, route}: Props) => {
     }
     return articles;
   };
-
   return (
     <SafeAreaView style={styles.safeContainer}>
       <View style={styles.mainContainer}>
+        <Text style={styles.title}>{'Top News headlines'}</Text>
+        <View style={styles.searchContainer}>
+          <SearchBox
+            value={searchText}
+            placeholder="Search"
+            onChangeText={(txt) => {
+              setSearchText(txt);
+            }}
+          />
+        </View>
         <NewsList
           list={onArticleListFilterHandler()}
           onPress={onPressNewsList}
@@ -68,5 +87,15 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: scaleWidth(16),
     marginVertical: scaleWidth(16),
+  },
+  searchContainer: {
+    marginTop: scaleHeight(15),
+    marginBottom: scaleHeight(10),
+  },
+  title: {
+    marginTop: scaleHeight(10),
+    ...scaleFontWithLineHeight(20),
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 });
