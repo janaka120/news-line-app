@@ -11,21 +11,21 @@ import {
 } from '../../../styles/Mixins';
 import SearchBox from '../../app/components/SearchBox';
 import type {Article} from '../../app/models/NewsModel';
-
+import TagList from '../components/TagList';
 import type {NavPropType} from '../../../Types';
-
+import {TagItems} from '../CustomNewsConstant';
 type Props = {
   navigation: NavPropType,
   route: {
     params: any,
   },
 };
-//bitcoin, apple, earthquake, animal
+
 const CustomNewsFeedScreen = ({navigation, route}: Props) => {
   const dispatch = useDispatch();
 
   const [searchText, setSearchText] = useState('');
-  const [newsTopic, setNewsTopic] = useState('bitcoin');
+  const [newsTopic, setNewsTopic] = useState(TagItems[0].title);
 
   const {totalArticles, articles} = useSelector(
     (state) => ({
@@ -37,7 +37,7 @@ const CustomNewsFeedScreen = ({navigation, route}: Props) => {
 
   useEffect(() => {
     dispatch(requestCustomNews(newsTopic));
-  }, [dispatch]);
+  }, [dispatch, newsTopic]);
 
   const onPressNewsList = (id) => {
     console.log('New Item Id', id);
@@ -56,10 +56,18 @@ const CustomNewsFeedScreen = ({navigation, route}: Props) => {
     }
     return articles;
   };
+
+  const onSelectTagHandler = (val) => {
+    setNewsTopic(val);
+  };
+
   return (
     <SafeAreaView style={styles.safeContainer}>
       <View style={styles.mainContainer}>
         <Text style={styles.title}>{'Specific News headlines'}</Text>
+        <View style={styles.tagsContainer}>
+          <TagList onSelect={onSelectTagHandler} value={newsTopic} />
+        </View>
         <View style={styles.searchContainer}>
           <SearchBox
             value={searchText}
@@ -98,5 +106,8 @@ const styles = StyleSheet.create({
     ...scaleFontWithLineHeight(20),
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  tagsContainer: {
+    marginTop: scaleHeight(15),
   },
 });
