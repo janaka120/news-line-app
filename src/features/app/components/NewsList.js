@@ -1,18 +1,27 @@
 // @flow
-import React from 'react';
-import {FlatList} from 'react-native';
+import React, {useCallback} from 'react';
+import {FlatList, RefreshControl, ActivityIndicator} from 'react-native';
 import NewsListItem from './NewsListItem';
+import EmptyListCom from './EmptyListCom';
 
 type Props = {
   list: [],
   onPress: (uuid: string) => void,
+  refreshing: boolean,
+  onRefresh: () => void,
+  loading: boolean,
+  onLoadMore: () => void,
 };
 
 const NewsList = (props: Props) => {
-  const {list, onPress} = props;
+  const {list, onPress, refreshing, onRefresh, loading, onLoadMore} = props;
   const onPressItem = (uuid: string) => {
     onPress(uuid);
   };
+
+  const listEmptyComponent = () => (
+    <EmptyListCom title={'No News Articles available.'} />
+  );
 
   const renderItem = ({uuid, title, urlToImage}) => {
     return (
@@ -25,6 +34,11 @@ const NewsList = (props: Props) => {
     );
   };
 
+  const renderFooter = () => {
+    if (!loading) return null;
+    return <ActivityIndicator style={{color: '#000'}} />;
+  };
+
   return (
     <>
       <FlatList
@@ -33,6 +47,13 @@ const NewsList = (props: Props) => {
         keyExtractor={(item) => item.uuid}
         showsVerticalScrollIndicator={false}
         extraData={props}
+        ListEmptyComponent={listEmptyComponent()}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        ListFooterComponent={renderFooter}
+        onEndReachedThreshold={0.4}
+        onEndReached={onLoadMore}
       />
     </>
   );

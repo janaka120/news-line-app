@@ -9,7 +9,6 @@ export const requestUserSave = (userName, fullName, password) => {
 };
 
 export const requestUserSaveSuccess = (data: User) => {
-  console.log('data >>>>>>>>>>>', data);
   return {
     type: UserConstant.PROFILE_SAVE_REQUEST_SUCCESS,
     payload: data,

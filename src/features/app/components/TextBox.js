@@ -23,6 +23,7 @@ type Props = {
   error?: string,
   secureTextEntry?: boolean,
   autoCapitalize?: string,
+  editable?: boolean,
 };
 const TextBox = ({
   placeholder,
@@ -33,6 +34,7 @@ const TextBox = ({
   error = '',
   secureTextEntry = false,
   autoCapitalize = 'none',
+  editable = true,
 }: Props) => {
   const [isFocused, setFocus] = useState(false);
   const searchRef = useRef();
@@ -71,6 +73,7 @@ const TextBox = ({
           placeholder={isFocused ? '' : placeholder}
           placeholderTextColor={GRAY_9D9}
           secureTextEntry={secureTextEntry}
+          editable={editable}
         />
       </View>
       {error && error.length > 0 ? (

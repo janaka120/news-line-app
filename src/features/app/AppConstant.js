@@ -5,4 +5,6 @@ export const AppConstant = {
     Favorite: 'Favorite',
     Profile: 'Profile',
   },
+  FULL_LOADER_START: 'FULL_LOADER_START',
+  FULL_LOADER_STOP: 'FULL_LOADER_STOP',
 };

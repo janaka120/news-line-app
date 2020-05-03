@@ -9,10 +9,12 @@ import {
   scaleFontWithLineHeight,
   scaleHeight,
 } from '../../../styles/Mixins';
-import {WHITE_FFF} from '../../../styles/Colors';
+import {WHITE_FFF, GRAY_999} from '../../../styles/Colors';
 import TextBox from '../../app/components/TextBox';
 import SubmitButton from '../../app/components/SubmitButton';
 import {requestUserSave, requestUserSavedProfile} from '../actions/UserActions';
+import {startFullLoader} from '../../app/actions/AppActions';
+import FullLoader from '../../app/components/FullLoader';
 
 const UserProfileScreen = () => {
   const dispatch = useDispatch();
@@ -22,12 +24,14 @@ const UserProfileScreen = () => {
     storedFullName,
     storedPassword,
     loggedSuccess,
+    fullLoaderStatus,
   } = useSelector(
     (state) => ({
       storedUserName: state.userReducer.userName,
       storedFullName: state.userReducer.fullName,
       storedPassword: state.userReducer.password,
       loggedSuccess: state.userReducer.loggedSuccess,
+      fullLoaderStatus: state.appReducer.fullLoader,
     }),
     shallowEqual,
   );
@@ -37,10 +41,12 @@ const UserProfileScreen = () => {
   const [password, setPassword] = useState(storedPassword);
 
   useEffect(() => {
+    dispatch(startFullLoader());
     dispatch(requestUserSavedProfile());
   }, [dispatch]);
 
   const onPressSubmit = () => {
+    dispatch(startFullLoader());
     dispatch(requestUserSave(userName, fullName, password));
   };
 
@@ -71,6 +77,7 @@ const UserProfileScreen = () => {
             }}
             icon="user-shield"
             error={userName.length <= 5 ? 'Please enter valid User name.' : ''}
+            editable={!loggedSuccess}
           />
           <View style={styles.gap} />
           <TextBox
@@ -82,6 +89,7 @@ const UserProfileScreen = () => {
             icon="user-alt"
             autoCapitalize="words"
             error={fullName.length <= 3 ? 'Please enter valid Full name.' : ''}
+            editable={!loggedSuccess}
           />
           <View style={styles.gap} />
           <TextBox
@@ -93,6 +101,7 @@ const UserProfileScreen = () => {
             icon="user-lock"
             secureTextEntry={true}
             error={password.length <= 5 ? 'Please enter valid Password.' : ''}
+            editable={!loggedSuccess}
           />
         </View>
         {!loggedSuccess ? (
@@ -103,8 +112,11 @@ const UserProfileScreen = () => {
               disabled={validateForm()}
             />
           </View>
-        ) : null}
+        ) : (
+          <Text style={styles.info}>{'User already registered.'}</Text>
+        )}
       </KeyboardAwareScrollView>
+      <FullLoader showLoader={fullLoaderStatus} />
     </SafeAreaView>
   );
 };
@@ -135,5 +147,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: scaleHeight(50),
+  },
+  info: {
+    marginTop: scaleHeight(20),
+    ...scaleFontWithLineHeight(16),
+    color: GRAY_999,
+    textAlign: 'center',
   },
 });

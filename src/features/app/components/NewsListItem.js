@@ -2,10 +2,7 @@
 import * as React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {
-  GREEN_86D,
-  GREEN_53A,
   WHITE_FFF,
-  GRAY_999,
   GRAY_190_1,
   GRAY_6D6,
   GRAY_9D9,

@@ -18,6 +18,7 @@ import {
 } from '../../../styles/Mixins';
 import {GRAY_070, WHITE_FFF} from '../../../styles/Colors';
 import CloseBtn from '../../app/components/CloseButton';
+import Alert from '../../app/components/CustomAlert';
 
 type Props = {
   navigation: any,
@@ -38,11 +39,10 @@ const NewsDetailsScreen = ({navigation, route}: Props) => {
   const content = route.params?.content;
 
   const onPressSource = () => {
-    console.log('url');
     if (url && url.length > 0) {
-      Linking.openURL(url).catch((err) =>
-        console.error('An error occurred', err),
-      );
+      Linking.openURL(url).catch(() => {
+        Alert('Oops', 'Something went wrong, opening the original article.');
+      });
     }
   };
 

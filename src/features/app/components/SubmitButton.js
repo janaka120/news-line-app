@@ -2,7 +2,7 @@
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
-import {BLUE_FEA, GRAY_6D6} from '../../../styles/Colors';
+import {BLUE_FEA, GRAY_6D6, WHITE_FFF} from '../../../styles/Colors';
 import {
   scaleWidth,
   scaleFontWithLineHeight,
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
   },
   lbl: {
     ...scaleFontWithLineHeight(18),
-    color: 'white',
+    color: WHITE_FFF,
   },
 });

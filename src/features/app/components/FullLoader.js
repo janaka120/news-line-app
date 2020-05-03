@@ -2,7 +2,7 @@
 import React from 'react';
 import {View, ActivityIndicator, StyleSheet, Text} from 'react-native';
 
-import {GREEN_86D, BLACK_0_6} from '../../../styles/Colors';
+import {RED_851, BLACK_0_6, WHITE_FFF} from '../../../styles/Colors';
 import {scaleHeight, scaleFontWithLineHeight} from '../../../styles/Mixins';
 
 type Props = {
@@ -12,8 +12,8 @@ const FullLoader = ({showLoader}: Props) => {
   return (
     showLoader && (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color={GREEN_86D} />
-        <Text style={styles.lbl}>{translate(GlobalKey.GLOBAL_LOADING)}</Text>
+        <ActivityIndicator size="large" color={RED_851} />
+        <Text style={styles.text}>{'Loading...'}</Text>
       </View>
     )
   );
@@ -27,10 +27,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: BLACK_0_6,
   },
-  lbl: {
+  text: {
     marginTop: scaleHeight(20),
     ...scaleFontWithLineHeight(16),
-    color: 'white',
+    color: WHITE_FFF,
   },
 });
-

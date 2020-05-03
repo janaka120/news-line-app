@@ -10,7 +10,6 @@ import CustomNewsFeedScreen from '../features/customNews/screens/CustomNewsFeedS
 import UserProfileScreen from '../features/userProfile/screens/UserProfileScreen';
 import TabBar from '../features/home/components/TabBar';
 
-
 const iconSize = scaleFont(17);
 const Tab = createBottomTabNavigator();
 
@@ -18,7 +17,7 @@ const HomeNavigation = () => {
   return (
     <Tab.Navigator
       headerMode="none"
-      initialRouteName="user"
+      initialRouteName="home"
       tabBar={(props) => <TabBar {...props} />}>
       <Tab.Screen
         name={AppConstant.TAB_LABELS.Home}

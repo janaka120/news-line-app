@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {UserConstant} from '../UserConstant';
 import {requestUserSaveSuccess} from '../actions/UserActions';
+import {stopFullLoader} from '../../app/actions/AppActions';
 import API from '../../../api';
 import type {User} from '../../app/models/UserModel';
 import Alert from '../../app/components/CustomAlert';
@@ -18,7 +19,7 @@ export const getItem = async (key: string): Promise<string> => {
       throw '';
     }
   } catch (error) {
-    Alert('Oops', 'User profile retrieve failed');
+    // Alert('Oops', 'User profile retrieve failed');
     console.log('get item', error);
     throw error;
   }
@@ -41,8 +42,10 @@ function* requestProfileSave({payload}) {
         password,
       }),
     );
+    yield put(stopFullLoader());
     Alert('Success', 'User profile save successfully');
   } catch (e) {
+    yield put(stopFullLoader());
     Alert('Oops', 'User profile save failed');
     console.log('requestNews, error: ', e);
   }
@@ -60,8 +63,10 @@ function* requestProfileSavedData() {
         password,
       }),
     );
+    yield put(stopFullLoader());
   } catch (e) {
-    Alert('Oops', 'User profile retrieve failed');
+    yield put(stopFullLoader());
+    // Alert('Oops', 'User profile retrieve failed');
     console.log('requestNews, error: ', e);
   }
 }
