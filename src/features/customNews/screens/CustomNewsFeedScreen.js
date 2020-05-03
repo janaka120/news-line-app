@@ -1,8 +1,13 @@
 // @flow
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {View, SafeAreaView, StyleSheet, Text} from 'react-native';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
-import {requestCustomNews} from '../actions/CustomNewsActions';
+import {
+  requestCustomNews,
+  pullToRefresh,
+  loadMoreCustomNews,
+  requestCustomNewsLoadMore,
+} from '../actions/CustomNewsActions';
 import NewsList from '../../app/components/NewsList';
 import {
   scaleWidth,
@@ -13,7 +18,8 @@ import SearchBox from '../../app/components/SearchBox';
 import type {Article} from '../../app/models/NewsModel';
 import TagList from '../components/TagList';
 import type {NavPropType} from '../../../Types';
-import {TagItems} from '../CustomNewsConstant';
+import {CustomNewsConstant, TagItems} from '../CustomNewsConstant';
+
 type Props = {
   navigation: NavPropType,
   route: {
@@ -27,10 +33,13 @@ const CustomNewsFeedScreen = ({navigation, route}: Props) => {
   const [searchText, setSearchText] = useState('');
   const [newsTopic, setNewsTopic] = useState(TagItems[0].title);
 
-  const {totalArticles, articles} = useSelector(
+  const {totalArticles, articles, refreshing, loading, page} = useSelector(
     (state) => ({
       totalArticles: state.customNewsReducer.customTotalArticles,
       articles: state.customNewsReducer.customArticles,
+      refreshing: state.customNewsReducer.isListRefreshing,
+      loading: state.customNewsReducer.isListLoading,
+      page: state.customNewsReducer.page,
     }),
     shallowEqual,
   );
@@ -61,6 +70,20 @@ const CustomNewsFeedScreen = ({navigation, route}: Props) => {
     setNewsTopic(val);
   };
 
+  const onRefreshHandler = useCallback(() => {
+    dispatch(pullToRefresh());
+    dispatch(requestCustomNews(newsTopic));
+  }, [dispatch, newsTopic]);
+
+  const onLoadMoreHandler = useCallback(() => {
+    if (
+      !loading &&
+      totalArticles / CustomNewsConstant.CUSTOM_NEWS_ARTICLES_PAGE_SIZE > page
+    ) {
+      dispatch(loadMoreCustomNews());
+      dispatch(requestCustomNewsLoadMore(newsTopic, page + 1));
+    }
+  }, [dispatch, page, totalArticles, newsTopic, loading]);
   return (
     <SafeAreaView style={styles.safeContainer}>
       <View style={styles.mainContainer}>
@@ -80,6 +103,10 @@ const CustomNewsFeedScreen = ({navigation, route}: Props) => {
         <NewsList
           list={onArticleListFilterHandler()}
           onPress={onPressNewsList}
+          onRefresh={onRefreshHandler}
+          refreshing={refreshing}
+          loading={loading}
+          onLoadMore={onLoadMoreHandler}
         />
       </View>
     </SafeAreaView>
@@ -108,6 +135,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   tagsContainer: {
-    marginTop: scaleHeight(15),
+    marginTop: scaleHeight(25),
   },
 });

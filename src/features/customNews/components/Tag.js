@@ -8,7 +8,7 @@ import {
   scaleSize,
   scaleSizeBorder,
 } from '../../../styles/Mixins';
-import {GRAY_070, WHITE_FFF, GRAY_190_1} from '../../../styles/Colors';
+import {GRAY_070, GRAY_190_1, RED_851} from '../../../styles/Colors';
 
 type Props = {
   onPress: () => void,
@@ -17,7 +17,6 @@ type Props = {
 };
 
 const TagList = ({onPress, title, selected}: Props) => {
-  console.log('title >>>>', title);
   return (
     <TouchableOpacity
       style={[
@@ -47,7 +46,7 @@ export const styles = StyleSheet.create({
   },
   conSelect: {
     borderWidth: scaleSizeBorder(1, 1),
-    borderColor: '#D6D6D6',
+    borderColor: RED_851,
   },
   conUnselect: {},
 });

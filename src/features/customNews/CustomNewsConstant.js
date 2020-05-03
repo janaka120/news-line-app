@@ -3,11 +3,17 @@ export const CustomNewsConstant = {
   CUSTOM_NEWS_REQUEST: 'CUSTOM_NEWS_REQUEST',
   CUSTOM_NEWS_REQUEST_SUCCESS: 'CUSTOM_NEWS_REQUEST_SUCCESS',
   CUSTOM_NEWS_REQUEST_FAILED: 'CUSTOM_NEWS_REQUEST_FAILED',
+  CUSTOM_NEWS_PULL_TO_REFRESH: 'CUSTOM_NEWS_PULL_TO_REFRESH',
+  LOAD_MORE_CUSTOM_NEWS: 'LOAD_MORE_CUSTOM_NEWS',
+  CUSTOM_NEWS_LOAD_MORE_REQUEST: 'CUSTOM_NEWS_LOAD_MORE_REQUEST',
+  CUSTOM_NEWS_LOAD_MORE_REQUEST_SUCCESS:
+    'CUSTOM_NEWS_LOAD_MORE_REQUEST_SUCCESS',
+  CUSTOM_NEWS_ARTICLES_PAGE_SIZE: 20,
 };
 
 export const TagItems = [
-  {id: 1, title: 'Bitcoin'},
+  {id: 1, title: 'Animal'},
   {id: 2, title: 'Apple'},
-  {id: 3, title: 'Earthquake'},
-  {id: 4, title: 'Animal'},
+  {id: 3, title: 'Bitcoin'},
+  {id: 4, title: 'Earthquake'},
 ];
