@@ -1,6 +1,6 @@
 # React Native news-line-app Application
 
-![NewsHeadlinesOne](https://user-images.githubusercontent.com/10891893/80907113-71c6f680-8d31-11ea-9cb0-02617bba65ec.png)
+![NewsHeadlinesOne_150px](https://user-images.githubusercontent.com/10891893/80907255-231a5c00-8d33-11ea-9e01-e02e0e7378f5.png)
 
 ## Getting started
 
