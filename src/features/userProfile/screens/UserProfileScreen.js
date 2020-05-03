@@ -76,7 +76,11 @@ const UserProfileScreen = () => {
               setUserName(txt);
             }}
             icon="user-shield"
-            error={userName.length <= 5 ? 'Please enter valid User name.' : ''}
+            error={
+              userName.length <= 5
+                ? 'Please enter minimum 5 character User name.'
+                : ''
+            }
             editable={!loggedSuccess}
           />
           <View style={styles.gap} />
@@ -88,7 +92,11 @@ const UserProfileScreen = () => {
             }}
             icon="user-alt"
             autoCapitalize="words"
-            error={fullName.length <= 3 ? 'Please enter valid Full name.' : ''}
+            error={
+              fullName.length <= 3
+                ? 'Please enter minimum 4 character Full name.'
+                : ''
+            }
             editable={!loggedSuccess}
           />
           <View style={styles.gap} />
@@ -100,7 +108,11 @@ const UserProfileScreen = () => {
             }}
             icon="user-lock"
             secureTextEntry={true}
-            error={password.length <= 5 ? 'Please enter valid Password.' : ''}
+            error={
+              password.length <= 5
+                ? 'Please enter minimum 6 character Password.'
+                : ''
+            }
             editable={!loggedSuccess}
           />
         </View>
