@@ -5,7 +5,7 @@ import {useSafeArea} from 'react-native-safe-area-context';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 
 import {scaleFont, scaleFontWithLineHeight} from '../../../styles/Mixins';
-import {BLUE_995, GRAY_999, WHITE_5F5} from '../../../styles/Colors';
+import {RED_851, GRAY_999, WHITE_5F5} from '../../../styles/Colors';
 import {AppConstant} from '../../app/AppConstant';
 
 const TAB_ICONS = {
@@ -45,8 +45,7 @@ const TabBar = ({state, navigation}: Props) => {
           if (!isFocused) {
             navigation.navigate(route.name);
           }
-		};
-		console.log('route.name >>>>>>>>>>>>', route.name);
+        };
         return (
           <View style={styles.animCon} key={route.name}>
             <TouchableWithoutFeedback onPress={onPress}>
@@ -54,7 +53,7 @@ const TabBar = ({state, navigation}: Props) => {
                 <EntypoIcon
                   name={TAB_ICONS[route.name]}
                   size={iconSize}
-                  color={isFocused ? BLUE_995 : GRAY_999}
+                  color={isFocused ? RED_851 : GRAY_999}
                 />
                 <Text style={isFocused ? styles.focused : styles.notFocused}>
                   {AppConstant.TAB_LABELS[route.name]}
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
   },
   focused: {
     ...lblStyle,
-    color: BLUE_995,
+    color: RED_851,
   },
   notFocused: {
     ...lblStyle,
