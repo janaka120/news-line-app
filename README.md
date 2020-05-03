@@ -1,4 +1,4 @@
-# React Native news-line-app Application
+# React Native news-line Application
 
 ![NewsHeadlinesOne_150px](https://user-images.githubusercontent.com/10891893/80907255-231a5c00-8d33-11ea-9e01-e02e0e7378f5.png)
 
